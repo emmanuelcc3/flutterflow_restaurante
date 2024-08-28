@@ -11,7 +11,5 @@ class ListaProductoModel extends FlutterFlowModel<ListaProductoWidget> {
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    unfocusNode.dispose();
-  }
+  void dispose() {}
 }

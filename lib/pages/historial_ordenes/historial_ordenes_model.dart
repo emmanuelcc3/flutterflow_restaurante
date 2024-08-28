@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'ordenes_copy_widget.dart' show OrdenesCopyWidget;
+import 'historial_ordenes_widget.dart' show HistorialOrdenesWidget;
 import 'package:flutter/material.dart';
 
-class OrdenesCopyModel extends FlutterFlowModel<OrdenesCopyWidget> {
+class HistorialOrdenesModel extends FlutterFlowModel<HistorialOrdenesWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -11,7 +11,5 @@ class OrdenesCopyModel extends FlutterFlowModel<OrdenesCopyWidget> {
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    unfocusNode.dispose();
-  }
+  void dispose() {}
 }

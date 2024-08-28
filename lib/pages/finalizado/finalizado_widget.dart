@@ -40,28 +40,39 @@ class _FinalizadoWidgetState extends State<FinalizadoWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       body: SafeArea(
         top: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20.0, 12.0, 20.0, 16.0),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(20.0, 12.0, 20.0, 16.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [],
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      'assets/images/La_Casita.png',
+                      width: 300.0,
+                      height: 200.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
               width: 140.0,
               height: 140.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary,
+                color: const Color(0xFFE4622D),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: FlutterFlowTheme.of(context).primary,
+                  color: const Color(0xFFE4622D),
                   width: 2.0,
                 ),
               ),
@@ -81,7 +92,20 @@ class _FinalizadoWidgetState extends State<FinalizadoWidget> {
                 'Orden Confirmada',
                 style: FlutterFlowTheme.of(context).displaySmall.override(
                       fontFamily: 'Outfit',
-                      color: FlutterFlowTheme.of(context).primary,
+                      color: const Color(0xFF4E4E4E),
+                      letterSpacing: 0.0,
+                    ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+              child: Text(
+                'Puede retirar su orden 15 minutos',
+                textAlign: TextAlign.center,
+                style: FlutterFlowTheme.of(context).displaySmall.override(
+                      fontFamily: 'Outfit',
+                      color: const Color(0xFF4E4E4E),
+                      fontSize: 20.0,
                       letterSpacing: 0.0,
                     ),
               ),
@@ -91,12 +115,13 @@ class _FinalizadoWidgetState extends State<FinalizadoWidget> {
               child: Text(
                 formatNumber(
                   widget.orden!.monto,
-                  formatType: FormatType.custom,
-                  format: '\$.00',
-                  locale: '',
+                  formatType: FormatType.decimal,
+                  decimalType: DecimalType.automatic,
+                  currency: '₡',
                 ),
                 style: FlutterFlowTheme.of(context).displayLarge.override(
                       fontFamily: 'Outfit',
+                      color: const Color(0xFF4E4E4E),
                       letterSpacing: 0.0,
                     ),
               ),
@@ -120,15 +145,16 @@ class _FinalizadoWidgetState extends State<FinalizadoWidget> {
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).alternate,
+                        color: const Color(0xFFE4622D),
                         textStyle:
                             FlutterFlowTheme.of(context).bodyLarge.override(
                                   fontFamily: 'Readex Pro',
+                                  color: Colors.white,
                                   letterSpacing: 0.0,
                                 ),
                         elevation: 0.0,
                         borderSide: const BorderSide(
-                          color: Colors.transparent,
+                          color: Color(0xFFE4622D),
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(40.0),

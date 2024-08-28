@@ -127,9 +127,7 @@ class _LoginWidgetState extends State<LoginWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -143,19 +141,21 @@ class _LoginWidgetState extends State<LoginWidget>
                   width: double.infinity,
                   height: 230.0,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   alignment: const AlignmentDirectional(0.0, 0.0),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 72.0),
-                    child: Text(
-                      'Restaurante',
-                      style: FlutterFlowTheme.of(context).displaySmall.override(
-                            fontFamily: 'Outfit',
-                            letterSpacing: 0.0,
-                          ),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        'assets/images/La_Casita.png',
+                        width: 300.0,
+                        height: 200.0,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -181,11 +181,12 @@ class _LoginWidgetState extends State<LoginWidget>
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                 blurRadius: 4.0,
-                                color: Color(0x33000000),
-                                offset: Offset(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                offset: const Offset(
                                   0.0,
                                   2.0,
                                 ),
@@ -207,8 +208,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                   alignment: const Alignment(0.0, 0),
                                   child: TabBar(
                                     isScrollable: true,
-                                    labelColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    labelColor:
+                                        FlutterFlowTheme.of(context).color,
                                     unselectedLabelColor:
                                         FlutterFlowTheme.of(context)
                                             .secondaryText,
@@ -228,8 +229,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                               fontFamily: 'Readex Pro',
                                               letterSpacing: 0.0,
                                             ),
-                                    indicatorColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                    indicatorColor: const Color(0xFF4E866C),
                                     indicatorWeight: 3.0,
                                     tabs: const [
                                       Tab(
@@ -288,6 +288,9 @@ class _LoginWidgetState extends State<LoginWidget>
                                                         .headlineMedium
                                                         .override(
                                                           fontFamily: 'Outfit',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
                                                           letterSpacing: 0.0,
                                                         ),
                                                   ),
@@ -327,7 +330,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .alternate,
+                                                                .primaryBackground,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -341,7 +344,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .primary,
+                                                                .color,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -391,6 +394,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                                           .override(
                                                             fontFamily:
                                                                 'Readex Pro',
+                                                            color: const Color(
+                                                                0xFF4E4E4E),
                                                             letterSpacing: 0.0,
                                                           ),
                                                       keyboardType:
@@ -438,7 +443,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .alternate,
+                                                                .primaryBackground,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -452,7 +457,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .primary,
+                                                                .color,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -524,6 +529,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                                           .override(
                                                             fontFamily:
                                                                 'Readex Pro',
+                                                            color: const Color(
+                                                                0xFF4E4E4E),
                                                             letterSpacing: 0.0,
                                                           ),
                                                       validator: _model
@@ -539,7 +546,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
+                                                            .fromSTEB(0.0, 15.0,
                                                                 0.0, 16.0),
                                                     child: FFButtonWidget(
                                                       onPressed: () async {
@@ -571,9 +578,10 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                   .text,
                                                               primerInicio:
                                                                   true,
+                                                              rol: 'Cliente',
                                                             ));
 
-                                                        context.goNamedAuth(
+                                                        context.pushNamedAuth(
                                                             'Validar',
                                                             context.mounted);
                                                       },
@@ -596,9 +604,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                     0.0,
                                                                     0.0),
                                                         color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                            const Color(0xFFE4622D),
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -606,8 +612,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                 .override(
                                                                   fontFamily:
                                                                       'Readex Pro',
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: const Color(
+                                                                      0xFFF9F9F9),
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
@@ -623,40 +629,6 @@ class _LoginWidgetState extends State<LoginWidget>
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    24.0),
-                                                        child: Text(
-                                                          'Or sign up with',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
                                                 ),
                                               ],
                                             ),
@@ -691,16 +663,24 @@ class _LoginWidgetState extends State<LoginWidget>
                                                           .secondaryBackground,
                                                     ),
                                                   ),
-                                                Text(
-                                                  'Bienvenido',
-                                                  textAlign: TextAlign.start,
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .headlineMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 10.0),
+                                                  child: Text(
+                                                    'Bienvenido',
+                                                    textAlign: TextAlign.start,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .headlineMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsetsDirectional
@@ -751,7 +731,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .primary,
+                                                                .color,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -765,7 +745,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .alternate,
+                                                                .error,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -779,7 +759,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .alternate,
+                                                                .error,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -852,7 +832,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .alternate,
+                                                                .primaryBackground,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -866,7 +846,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .primary,
+                                                                .color,
                                                             width: 2.0,
                                                           ),
                                                           borderRadius:
@@ -980,10 +960,10 @@ class _LoginWidgetState extends State<LoginWidget>
                                                         }
 
                                                         context.goNamedAuth(
-                                                            'Validar',
+                                                            'ListaProducto',
                                                             context.mounted);
                                                       },
-                                                      text: 'Sign In',
+                                                      text: 'Iniciar sesión',
                                                       options: FFButtonOptions(
                                                         width: 230.0,
                                                         height: 52.0,
@@ -1002,9 +982,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                     0.0,
                                                                     0.0),
                                                         color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                            const Color(0xFFE4622D),
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1012,8 +990,9 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                 .override(
                                                                   fontFamily:
                                                                       'Readex Pro',
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
@@ -1037,49 +1016,15 @@ class _LoginWidgetState extends State<LoginWidget>
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 24.0),
-                                                    child: Text(
-                                                      'Or sign in with',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .labelMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      const AlignmentDirectional(
-                                                          0.0, 0.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 16.0),
                                                     child: FFButtonWidget(
                                                       onPressed: () async {
-                                                        GoRouter.of(context)
-                                                            .prepareAuthEvent();
-                                                        final user =
-                                                            await authManager
-                                                                .signInWithGoogle(
-                                                                    context);
-                                                        if (user == null) {
-                                                          return;
-                                                        }
-
-                                                        context.goNamedAuth(
-                                                            'Validar',
-                                                            context.mounted);
+                                                        context.pushNamed(
+                                                            'OlvidarContrasena');
                                                       },
-                                                      text: 'Forgot Password?',
+                                                      text:
+                                                          'Olvide Contraseña?',
                                                       options: FFButtonOptions(
                                                         height: 44.0,
                                                         padding:
@@ -1106,6 +1051,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                 .override(
                                                                   fontFamily:
                                                                       'Readex Pro',
+                                                                  color: const Color(
+                                                                      0xFF4E4E4E),
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
@@ -1125,7 +1072,14 @@ class _LoginWidgetState extends State<LoginWidget>
                                                         hoverColor:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .primaryBackground,
+                                                                .primaryText,
+                                                        hoverBorderSide:
+                                                            BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          width: 2.0,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

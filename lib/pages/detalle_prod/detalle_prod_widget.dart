@@ -45,16 +45,15 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<CarritoRecord>>(
       stream: queryCarritoRecord(
-        queryBuilder: (carritoRecord) => carritoRecord.where(Filter.or(
-          Filter(
-            'Creado',
-            isEqualTo: currentUserReference,
-          ),
-          Filter(
-            'Activado',
-            isEqualTo: true,
-          ),
-        )),
+        queryBuilder: (carritoRecord) => carritoRecord
+            .where(
+              'Creado',
+              isEqualTo: currentUserReference,
+            )
+            .where(
+              'Activado',
+              isEqualTo: true,
+            ),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -81,23 +80,21 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
             : null;
 
         return GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondary,
+              backgroundColor: const Color(0xFF4E866C),
               automaticallyImplyLeading: false,
               leading: FlutterFlowIconButton(
                 borderColor: Colors.transparent,
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_rounded,
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).info,
                   size: 30.0,
                 ),
                 onPressed: () async {
@@ -113,8 +110,8 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                   ),
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
                         fontFamily: 'Outfit',
-                        color: Colors.white,
-                        fontSize: 22.0,
+                        color: FlutterFlowTheme.of(context).info,
+                        fontSize: 24.0,
                         letterSpacing: 0.0,
                       ),
                 ),
@@ -210,13 +207,26 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                 ),
                                           ),
                                           Text(
-                                            formatNumber(
-                                              widget.productoPara!.precio,
-                                              formatType: FormatType.decimal,
-                                              decimalType:
-                                                  DecimalType.automatic,
-                                              currency: '',
-                                            ),
+                                            widget.productoPara?.promocion ==
+                                                    true
+                                                ? formatNumber(
+                                                    widget.productoPara!
+                                                        .descuento,
+                                                    formatType:
+                                                        FormatType.decimal,
+                                                    decimalType:
+                                                        DecimalType.automatic,
+                                                    currency: '₡',
+                                                  )
+                                                : formatNumber(
+                                                    widget
+                                                        .productoPara!.precio,
+                                                    formatType:
+                                                        FormatType.decimal,
+                                                    decimalType:
+                                                        DecimalType.automatic,
+                                                    currency: '₡',
+                                                  ),
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineMedium
                                                 .override(
@@ -301,9 +311,7 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                         (enabled) => FaIcon(
                                                       FontAwesomeIcons.plus,
                                                       color: enabled
-                                                          ? FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary
+                                                          ? const Color(0xFFE4622D)
                                                           : FlutterFlowTheme.of(
                                                                   context)
                                                               .alternate,
@@ -364,15 +372,21 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                           functions.subtotalProducto(
                                                               _model
                                                                   .countControllerValue!,
-                                                              widget
-                                                                  .productoPara!
-                                                                  .precio),
+                                                              widget.productoPara
+                                                                          ?.promocion ==
+                                                                      true
+                                                                  ? widget
+                                                                      .productoPara!
+                                                                      .descuento
+                                                                  : widget
+                                                                      .productoPara!
+                                                                      .precio),
                                                           formatType: FormatType
                                                               .decimal,
                                                           decimalType:
                                                               DecimalType
                                                                   .automatic,
-                                                          currency: '',
+                                                          currency: '₡',
                                                         ),
                                                         textAlign:
                                                             TextAlign.start,
@@ -409,9 +423,13 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                 FFButtonWidget(
                                                   onPressed: () async {
                                                     if (loggedIn) {
-                                                      if (detalleProdCarritoRecord
-                                                              ?.activado ==
-                                                          true) {
+                                                      if ((detalleProdCarritoRecord
+                                                                  ?.activado ==
+                                                              true) &&
+                                                          (currentUserUid ==
+                                                              detalleProdCarritoRecord
+                                                                  ?.creado
+                                                                  ?.id)) {
                                                         var listaProductoRecordReference1 =
                                                             ListaProductoRecord
                                                                 .collection
@@ -432,17 +450,30 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                               .productoPara
                                                               ?.imagen,
                                                           precio: widget
-                                                              .productoPara
-                                                              ?.precio,
+                                                                      .productoPara
+                                                                      ?.promocion ==
+                                                                  true
+                                                              ? widget
+                                                                  .productoPara
+                                                                  ?.descuento
+                                                              : widget
+                                                                  .productoPara
+                                                                  ?.precio,
                                                           subTotal:
                                                               valueOrDefault<
                                                                   double>(
                                                             functions.subtotalProducto(
                                                                 _model
                                                                     .countControllerValue!,
-                                                                widget
-                                                                    .productoPara!
-                                                                    .precio),
+                                                                widget.productoPara
+                                                                            ?.promocion ==
+                                                                        true
+                                                                    ? widget
+                                                                        .productoPara!
+                                                                        .descuento
+                                                                    : widget
+                                                                        .productoPara!
+                                                                        .precio),
                                                             0.0,
                                                           ),
                                                           creador:
@@ -466,15 +497,23 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                                       imagen: widget
                                                                           .productoPara
                                                                           ?.imagen,
-                                                                      precio: widget
-                                                                          .productoPara
-                                                                          ?.precio,
+                                                                      precio: widget.productoPara?.promocion ==
+                                                                              true
+                                                                          ? widget
+                                                                              .productoPara
+                                                                              ?.descuento
+                                                                          : widget
+                                                                              .productoPara
+                                                                              ?.precio,
                                                                       subTotal:
                                                                           valueOrDefault<
                                                                               double>(
                                                                         functions.subtotalProducto(
-                                                                            _model.countControllerValue!,
-                                                                            widget.productoPara!.precio),
+                                                                            _model
+                                                                                .countControllerValue!,
+                                                                            widget.productoPara?.promocion == true
+                                                                                ? widget.productoPara!.descuento
+                                                                                : widget.productoPara!.precio),
                                                                         0.0,
                                                                       ),
                                                                       creador:
@@ -530,17 +569,30 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                               .productoPara
                                                               ?.imagen,
                                                           precio: widget
-                                                              .productoPara
-                                                              ?.precio,
+                                                                      .productoPara
+                                                                      ?.promocion ==
+                                                                  true
+                                                              ? widget
+                                                                  .productoPara
+                                                                  ?.descuento
+                                                              : widget
+                                                                  .productoPara
+                                                                  ?.precio,
                                                           subTotal:
                                                               valueOrDefault<
                                                                   double>(
                                                             functions.subtotalProducto(
                                                                 _model
                                                                     .countControllerValue!,
-                                                                widget
-                                                                    .productoPara!
-                                                                    .precio),
+                                                                widget.productoPara
+                                                                            ?.promocion ==
+                                                                        true
+                                                                    ? widget
+                                                                        .productoPara!
+                                                                        .descuento
+                                                                    : widget
+                                                                        .productoPara!
+                                                                        .precio),
                                                             0.0,
                                                           ),
                                                           creador:
@@ -564,15 +616,23 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                                       imagen: widget
                                                                           .productoPara
                                                                           ?.imagen,
-                                                                      precio: widget
-                                                                          .productoPara
-                                                                          ?.precio,
+                                                                      precio: widget.productoPara?.promocion ==
+                                                                              true
+                                                                          ? widget
+                                                                              .productoPara
+                                                                              ?.descuento
+                                                                          : widget
+                                                                              .productoPara
+                                                                              ?.precio,
                                                                       subTotal:
                                                                           valueOrDefault<
                                                                               double>(
                                                                         functions.subtotalProducto(
-                                                                            _model.countControllerValue!,
-                                                                            widget.productoPara!.precio),
+                                                                            _model
+                                                                                .countControllerValue!,
+                                                                            widget.productoPara?.promocion == true
+                                                                                ? widget.productoPara!.descuento
+                                                                                : widget.productoPara!.precio),
                                                                         0.0,
                                                                       ),
                                                                       creador:
@@ -599,9 +659,15 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                               functions.subtotalProducto(
                                                                   _model
                                                                       .countControllerValue!,
-                                                                  widget
-                                                                      .productoPara!
-                                                                      .precio),
+                                                                  widget.productoPara
+                                                                              ?.promocion ==
+                                                                          true
+                                                                      ? widget
+                                                                          .productoPara!
+                                                                          .descuento
+                                                                      : widget
+                                                                          .productoPara!
+                                                                          .precio),
                                                               0.0,
                                                             ),
                                                           ),
@@ -619,7 +685,15 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                       }
 
                                                       context.pushNamed(
-                                                          'ListaProducto');
+                                                        'ListaProducto',
+                                                        queryParameters: {
+                                                          'lista':
+                                                              serializeParam(
+                                                            false,
+                                                            ParamType.bool,
+                                                          ),
+                                                        }.withoutNulls,
+                                                      );
                                                     } else {
                                                       context
                                                           .pushNamed('Login');
@@ -645,16 +719,15 @@ class _DetalleProdWidgetState extends State<DetalleProdWidget> {
                                                         const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary,
+                                                    color: const Color(0xFFE4622D),
                                                     textStyle: FlutterFlowTheme
                                                             .of(context)
                                                         .titleSmall
                                                         .override(
                                                           fontFamily:
                                                               'Readex Pro',
-                                                          color: Colors.white,
+                                                          color:
+                                                              const Color(0xFFFFFDFD),
                                                           letterSpacing: 0.0,
                                                         ),
                                                     elevation: 3.0,

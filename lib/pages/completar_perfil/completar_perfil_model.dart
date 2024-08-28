@@ -59,7 +59,6 @@ class CompletarPerfilModel extends FlutterFlowModel<CompletarPerfilWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     txtNombreFocusNode?.dispose();
     txtNombreTextController?.dispose();
 

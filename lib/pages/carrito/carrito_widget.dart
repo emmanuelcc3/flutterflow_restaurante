@@ -80,7 +80,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).secondary,
+            backgroundColor: const Color(0xFF4E866C),
             automaticallyImplyLeading: false,
             leading: FlutterFlowIconButton(
               borderColor: Colors.transparent,
@@ -100,7 +100,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
               'Detalle de Orden',
               style: FlutterFlowTheme.of(context).headlineMedium.override(
                     fontFamily: 'Outfit',
-                    color: Colors.white,
+                    color: FlutterFlowTheme.of(context).info,
                     fontSize: 22.0,
                     letterSpacing: 0.0,
                   ),
@@ -165,6 +165,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                           .titleLarge
                                           .override(
                                             fontFamily: 'Outfit',
+                                            color: const Color(0xFF4E4E4E),
                                             fontSize: 15.0,
                                             letterSpacing: 0.0,
                                           ),
@@ -182,6 +183,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Readex Pro',
+                                              color: const Color(0xFF4E4E4E),
                                               letterSpacing: 0.0,
                                             ),
                                       ),
@@ -373,6 +375,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                                             .labelSmall
                                                                             .override(
                                                                               fontFamily: 'Readex Pro',
+                                                                              color: const Color(0xFF4E4E4E),
                                                                               letterSpacing: 0.0,
                                                                             ),
                                                                       ),
@@ -400,7 +403,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                                 decimalType:
                                                                     DecimalType
                                                                         .automatic,
-                                                                currency: '',
+                                                                currency: '₡',
                                                               ),
                                                               textAlign:
                                                                   TextAlign.end,
@@ -410,6 +413,8 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                                   .override(
                                                                     fontFamily:
                                                                         'Outfit',
+                                                                    color: const Color(
+                                                                        0xFF4E4E4E),
                                                                     letterSpacing:
                                                                         0.0,
                                                                   ),
@@ -429,6 +434,9 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                       child: Row(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
                                                         children: [
                                                           InkWell(
                                                             splashColor: Colors
@@ -507,89 +515,6 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                               size: 24.0,
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        12.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                var confirmDialogResponse =
-                                                                    await showDialog<
-                                                                            bool>(
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (alertDialogContext) {
-                                                                            return AlertDialog(
-                                                                              title: const Text('Eliminar'),
-                                                                              content: const Text('Desea eliminar este producto?'),
-                                                                              actions: [
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                  child: const Text('Cancelar'),
-                                                                                ),
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                  child: const Text('Confirmar'),
-                                                                                ),
-                                                                              ],
-                                                                            );
-                                                                          },
-                                                                        ) ??
-                                                                        false;
-                                                                if (confirmDialogResponse) {
-                                                                  await carritoCarritoRecord!
-                                                                      .reference
-                                                                      .update({
-                                                                    ...mapToFirestore(
-                                                                      {
-                                                                        'ListaProductos':
-                                                                            FieldValue.increment(-(menuItemListaProductoRecord.cantidad)),
-                                                                        'Cantidad':
-                                                                            FieldValue.increment(-(menuItemListaProductoRecord.subTotal)),
-                                                                        'SelecListasProducto':
-                                                                            FieldValue.arrayRemove([
-                                                                          menuItemListaProductoRecord
-                                                                              .reference
-                                                                        ]),
-                                                                      },
-                                                                    ),
-                                                                  });
-                                                                  await menuItemListaProductoRecord
-                                                                      .reference
-                                                                      .delete();
-                                                                }
-                                                              },
-                                                              child: Text(
-                                                                'Remove',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ),
                                                         ],
                                                       ),
                                                     ),
@@ -640,6 +565,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                       .titleLarge
                                       .override(
                                         fontFamily: 'Outfit',
+                                        color: const Color(0xFF4E4E4E),
                                         letterSpacing: 0.0,
                                       ),
                                 ),
@@ -672,9 +598,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                       .override(
                                                         fontFamily: 'Outfit',
                                                         color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
+                                                            const Color(0xFF4E4E4E),
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -687,17 +611,17 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                 formatType: FormatType.decimal,
                                                 decimalType:
                                                     DecimalType.automatic,
-                                                currency: '',
+                                                currency: '₡',
                                               ),
                                               textAlign: TextAlign.end,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyLarge
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: const Color(0xFF4E4E4E),
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
                                           ],
                                         ),
@@ -718,9 +642,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                       .override(
                                                         fontFamily: 'Outfit',
                                                         color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
+                                                            const Color(0xFF4E4E4E),
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -735,17 +657,17 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                 formatType: FormatType.decimal,
                                                 decimalType:
                                                     DecimalType.automatic,
-                                                currency: '',
+                                                currency: '₡',
                                               ),
                                               textAlign: TextAlign.end,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyLarge
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: const Color(0xFF4E4E4E),
+                                                    letterSpacing: 0.0,
+                                                  ),
                                             ),
                                           ],
                                         ),
@@ -769,9 +691,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                                       .override(
                                                         fontFamily: 'Outfit',
                                                         color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
+                                                            const Color(0xFF4E4E4E),
                                                         fontSize: 20.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -799,19 +719,25 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                               ],
                                             ),
                                             Text(
-                                              functions
-                                                  .totalApagar(
-                                                      carritoCarritoRecord
-                                                          .cantidad,
-                                                      functions.iva(
-                                                          carritoCarritoRecord
-                                                              .cantidad)!)
-                                                  .toString(),
+                                              formatNumber(
+                                                functions.totalApagar(
+                                                    carritoCarritoRecord
+                                                        .cantidad,
+                                                    functions.iva(
+                                                        carritoCarritoRecord
+                                                            .cantidad)!),
+                                                formatType: FormatType.decimal,
+                                                decimalType:
+                                                    DecimalType.automatic,
+                                                currency: '₡',
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .displaySmall
                                                       .override(
                                                         fontFamily: 'Outfit',
+                                                        color:
+                                                            const Color(0xFF4E4E4E),
                                                         letterSpacing: 0.0,
                                                       ),
                                             ),
@@ -839,6 +765,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                         carrito:
                                             carritoCarritoRecord.reference,
                                         usuario: currentUserReference,
+                                        phoneNumber: currentPhoneNumber,
                                       ),
                                       ...mapToFirestore(
                                         {
@@ -862,6 +789,7 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                         carrito:
                                             carritoCarritoRecord.reference,
                                         usuario: currentUserReference,
+                                        phoneNumber: currentPhoneNumber,
                                       ),
                                       ...mapToFirestore(
                                         {
@@ -907,28 +835,29 @@ class _CarritoWidgetState extends State<CarritoWidget> {
                                     padding: const EdgeInsets.all(0.0),
                                     iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context).primary,
+                                    color: const Color(0xFFE4622D),
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
                                           fontFamily: 'Readex Pro',
+                                          color: const Color(0xFFFFFEFE),
                                           letterSpacing: 0.0,
                                         ),
                                     elevation: 2.0,
                                     borderSide: const BorderSide(
-                                      color: Colors.transparent,
+                                      color: Color(0xFFE4622D),
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(50.0),
-                                    hoverColor:
-                                        FlutterFlowTheme.of(context).accent1,
+                                    hoverColor: FlutterFlowTheme.of(context)
+                                        .customColor1,
                                     hoverBorderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
+                                      color: FlutterFlowTheme.of(context)
+                                          .customColor1,
                                       width: 1.0,
                                     ),
                                     hoverTextColor:
-                                        FlutterFlowTheme.of(context).primary,
+                                        FlutterFlowTheme.of(context).info,
                                   ),
                                 ),
                               ],

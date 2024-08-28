@@ -56,6 +56,11 @@ class OrderRecord extends FirestoreRecord {
   List<DocumentReference> get listaProducto => _listaProducto ?? const [];
   bool hasListaProducto() => _listaProducto != null;
 
+  // "phone_number" field.
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber ?? '';
+  bool hasPhoneNumber() => _phoneNumber != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _monto = castToType<double>(snapshotData['monto']);
@@ -65,6 +70,7 @@ class OrderRecord extends FirestoreRecord {
     _carrito = snapshotData['carrito'] as DocumentReference?;
     _usuario = snapshotData['usuario'] as DocumentReference?;
     _listaProducto = getDataList(snapshotData['listaProducto']);
+    _phoneNumber = snapshotData['phone_number'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -108,6 +114,7 @@ Map<String, dynamic> createOrderRecordData({
   DateTime? creada,
   DocumentReference? carrito,
   DocumentReference? usuario,
+  String? phoneNumber,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -118,6 +125,7 @@ Map<String, dynamic> createOrderRecordData({
       'creada': creada,
       'carrito': carrito,
       'usuario': usuario,
+      'phone_number': phoneNumber,
     }.withoutNulls,
   );
 
@@ -137,7 +145,8 @@ class OrderRecordDocumentEquality implements Equality<OrderRecord> {
         e1?.creada == e2?.creada &&
         e1?.carrito == e2?.carrito &&
         e1?.usuario == e2?.usuario &&
-        listEquality.equals(e1?.listaProducto, e2?.listaProducto);
+        listEquality.equals(e1?.listaProducto, e2?.listaProducto) &&
+        e1?.phoneNumber == e2?.phoneNumber;
   }
 
   @override
@@ -149,7 +158,8 @@ class OrderRecordDocumentEquality implements Equality<OrderRecord> {
         e?.creada,
         e?.carrito,
         e?.usuario,
-        e?.listaProducto
+        e?.listaProducto,
+        e?.phoneNumber
       ]);
 
   @override

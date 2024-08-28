@@ -1,8 +1,9 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'opinion_de_servicio_widget.dart' show OpinionDeServicioWidget;
+import 'admin_producto_widget.dart' show AdminProductoWidget;
 import 'package:flutter/material.dart';
 
-class OpinionDeServicioModel extends FlutterFlowModel<OpinionDeServicioWidget> {
+class AdminProductoModel extends FlutterFlowModel<AdminProductoWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -10,13 +11,13 @@ class OpinionDeServicioModel extends FlutterFlowModel<OpinionDeServicioWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<ProductoRecord> simpleSearchResults = [];
 
   @override
   void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
   }

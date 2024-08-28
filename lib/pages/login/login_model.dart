@@ -40,7 +40,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     tabBarController?.dispose();
     emailAddressCreateFocusNode?.dispose();
     emailAddressCreateTextController?.dispose();

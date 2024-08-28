@@ -7,6 +7,7 @@ import '/backend/backend.dart';
 import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -73,28 +74,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const ValidarWidget() : const LoginWidget(),
+          appStateNotifier.loggedIn ? const NavBarPage() : const LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const ValidarWidget() : const LoginWidget(),
-        ),
-        FFRoute(
-          name: 'HomePage',
-          path: '/homePage',
-          builder: (context, params) => const HomePageWidget(),
+              appStateNotifier.loggedIn ? const NavBarPage() : const LoginWidget(),
         ),
         FFRoute(
           name: 'Login',
           path: '/login',
           builder: (context, params) => const LoginWidget(),
-        ),
-        FFRoute(
-          name: 'ListaProducto',
-          path: '/listaProducto',
-          builder: (context, params) => const ListaProductoWidget(),
         ),
         FFRoute(
           name: 'DetalleProd',
@@ -110,34 +101,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SeleccionUsuario',
-          path: '/seleccionUsuario',
-          builder: (context, params) => const SeleccionUsuarioWidget(),
-        ),
-        FFRoute(
-          name: 'PedidosAsignados_Repartidor',
-          path: '/pedidosAsignadosRepartidor',
-          builder: (context, params) => const PedidosAsignadosRepartidorWidget(),
-        ),
-        FFRoute(
           name: 'Carrito',
           path: '/carrito',
           builder: (context, params) => const CarritoWidget(),
         ),
         FFRoute(
-          name: 'HistorialPedidos',
-          path: '/historialPedidos',
-          builder: (context, params) => const HistorialPedidosWidget(),
-        ),
-        FFRoute(
-          name: 'OpinionDeServicio',
-          path: '/opinionDeServicio',
-          builder: (context, params) => const OpinionDeServicioWidget(),
-        ),
-        FFRoute(
-          name: 'Promociones',
-          path: '/promociones',
-          builder: (context, params) => const PromocionesWidget(),
+          name: 'quiz3',
+          path: '/quiz3',
+          builder: (context, params) => const Quiz3Widget(),
         ),
         FFRoute(
           name: 'Validar',
@@ -152,7 +123,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Perfil',
           path: '/perfil',
-          builder: (context, params) => const PerfilWidget(),
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'Perfil')
+              : const PerfilWidget(),
         ),
         FFRoute(
           name: 'EditarPerfil',
@@ -191,14 +164,77 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'AdimEditarProductos',
-          path: '/adimEditarProductos',
-          builder: (context, params) => const AdimEditarProductosWidget(),
+          name: 'HistorialOrdenes',
+          path: '/historialOrdenes',
+          builder: (context, params) => const HistorialOrdenesWidget(),
         ),
         FFRoute(
-          name: 'OrdenesCopy',
-          path: '/ordenesCopy',
-          builder: (context, params) => const OrdenesCopyWidget(),
+          name: 'AdminProducto',
+          path: '/adminProducto',
+          builder: (context, params) => const AdminProductoWidget(),
+        ),
+        FFRoute(
+          name: 'CrearProducto',
+          path: '/crearProducto',
+          builder: (context, params) => const CrearProductoWidget(),
+        ),
+        FFRoute(
+          name: 'EditarProducto',
+          path: '/editarProducto',
+          asyncParams: {
+            'item': getDoc(['Producto'], ProductoRecord.fromSnapshot),
+          },
+          builder: (context, params) => EditarProductoWidget(
+            item: params.getParam(
+              'item',
+              ParamType.Document,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'AdminUsuario',
+          path: '/adminUsuario',
+          builder: (context, params) => const AdminUsuarioWidget(),
+        ),
+        FFRoute(
+          name: 'EditarUsuario',
+          path: '/editarUsuario',
+          asyncParams: {
+            'editarUsuario': getDoc(['users'], UsersRecord.fromSnapshot),
+          },
+          builder: (context, params) => EditarUsuarioWidget(
+            editarUsuario: params.getParam(
+              'editarUsuario',
+              ParamType.Document,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'OlvidarContrasena',
+          path: '/olvidarContrasena',
+          builder: (context, params) => const OlvidarContrasenaWidget(),
+        ),
+        FFRoute(
+          name: 'ListaProducto',
+          path: '/listaProducto',
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'ListaProducto')
+              : ListaProductoWidget(
+                  lista: params.getParam(
+                    'lista',
+                    ParamType.bool,
+                  ),
+                ),
+        ),
+        FFRoute(
+          name: 'quiz1',
+          path: '/quiz1',
+          builder: (context, params) => const Quiz1Widget(),
+        ),
+        FFRoute(
+          name: 'quiz2',
+          path: '/quiz2',
+          builder: (context, params) => const Quiz2Widget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

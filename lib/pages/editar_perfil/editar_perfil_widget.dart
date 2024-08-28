@@ -50,23 +50,21 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primary,
+          backgroundColor: const Color(0xFF4E866C),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_rounded,
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).info,
               size: 30.0,
             ),
             onPressed: () async {
@@ -77,8 +75,8 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
             'Editar Perfil',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
-                  color: Colors.white,
-                  fontSize: 22.0,
+                  color: FlutterFlowTheme.of(context).info,
+                  fontSize: 24.0,
                   letterSpacing: 0.0,
                 ),
           ),
@@ -189,7 +187,7 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                             24.0, 0.0, 24.0, 0.0),
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: const Color(0xFF4E866C),
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
                                   fontFamily: 'Readex Pro',
@@ -254,6 +252,9 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                           ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
+                        prefixIcon: const Icon(
+                          Icons.person,
+                        ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
@@ -311,6 +312,9 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                             width: 2.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.phone_iphone,
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -370,6 +374,9 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                           ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
+                        prefixIcon: const Icon(
+                          Icons.fmd_good,
+                        ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Readex Pro',
@@ -391,7 +398,8 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                           photoUrl: _model.uploadedFileUrl == ''
                               ? currentUserPhoto
                               : _model.uploadedFileUrl,
-                          phoneNumber: _model.txtTelefonoTextController.text,
+                          phoneNumber:
+                              '+506${_model.txtTelefonoTextController.text}',
                           direccion: _model.txtDireccionTextController.text,
                         ));
                         context.safePop();
@@ -404,7 +412,7 @@ class _EditarPerfilWidgetState extends State<EditarPerfilWidget> {
                             24.0, 0.0, 24.0, 0.0),
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: const Color(0xFF4E866C),
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
                                   fontFamily: 'Readex Pro',

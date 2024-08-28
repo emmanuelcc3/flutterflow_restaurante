@@ -1,36 +1,49 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
-import 'completar_perfil_model.dart';
-export 'completar_perfil_model.dart';
+import 'editar_usuario_model.dart';
+export 'editar_usuario_model.dart';
 
-class CompletarPerfilWidget extends StatefulWidget {
-  const CompletarPerfilWidget({super.key});
+class EditarUsuarioWidget extends StatefulWidget {
+  const EditarUsuarioWidget({
+    super.key,
+    required this.editarUsuario,
+  });
+
+  final UsersRecord? editarUsuario;
 
   @override
-  State<CompletarPerfilWidget> createState() => _CompletarPerfilWidgetState();
+  State<EditarUsuarioWidget> createState() => _EditarUsuarioWidgetState();
 }
 
-class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
-  late CompletarPerfilModel _model;
+class _EditarUsuarioWidgetState extends State<EditarUsuarioWidget> {
+  late EditarUsuarioModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CompletarPerfilModel());
+    _model = createModel(context, () => EditarUsuarioModel());
 
-    _model.txtNombreTextController ??= TextEditingController();
+    _model.txtNombreTextController ??=
+        TextEditingController(text: widget.editarUsuario?.displayName);
     _model.txtNombreFocusNode ??= FocusNode();
 
-    _model.txtTelefonoTextController ??= TextEditingController();
+    _model.txtTelefonoTextController ??=
+        TextEditingController(text: widget.editarUsuario?.phoneNumber);
     _model.txtTelefonoFocusNode ??= FocusNode();
+
+    _model.txtemailTextController ??=
+        TextEditingController(text: widget.editarUsuario?.email);
+    _model.txtemailFocusNode ??= FocusNode();
 
     _model.txtDireccionTextController ??= TextEditingController();
     _model.txtDireccionFocusNode ??= FocusNode();
@@ -53,8 +66,22 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
         appBar: AppBar(
           backgroundColor: const Color(0xFF4E866C),
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).info,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Text(
-            'Completar Perfil',
+            'Editar Perfil',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
                   color: FlutterFlowTheme.of(context).info,
@@ -95,7 +122,9 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.network(
-                            _model.uploadedFileUrl,
+                            _model.uploadedFileUrl == ''
+                                ? widget.editarUsuario!.photoUrl
+                                : _model.uploadedFileUrl,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -112,7 +141,6 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         final selectedMedia =
                             await selectMediaWithSourceBottomSheet(
                           context: context,
-                          imageQuality: 80,
                           allowPhoto: true,
                         );
                         if (selectedMedia != null &&
@@ -191,7 +219,7 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: 'Tu Nombre',
+                      labelText: 'Nombre',
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
                                 fontFamily: 'Readex Pro',
@@ -304,12 +332,12 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextFormField(
-                    controller: _model.txtDireccionTextController,
-                    focusNode: _model.txtDireccionFocusNode,
+                    controller: _model.txtemailTextController,
+                    focusNode: _model.txtemailFocusNode,
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: 'Direccion ',
+                      labelText: 'Email',
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
                                 fontFamily: 'Readex Pro',
@@ -349,7 +377,66 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       prefixIcon: const Icon(
-                        Icons.fmd_good_sharp,
+                        Icons.email_sharp,
+                      ),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Readex Pro',
+                          letterSpacing: 0.0,
+                        ),
+                    validator: _model.txtemailTextControllerValidator
+                        .asValidator(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TextFormField(
+                    controller: _model.txtDireccionTextController,
+                    focusNode: _model.txtDireccionFocusNode,
+                    autofocus: true,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: widget.editarUsuario?.direccion,
+                      labelStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Readex Pro',
+                                letterSpacing: 0.0,
+                              ),
+                      hintStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Readex Pro',
+                                letterSpacing: 0.0,
+                              ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).alternate,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.fmd_good,
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -360,45 +447,57 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         .asValidator(context),
                   ),
                 ),
+                FlutterFlowDropDown<String>(
+                  controller: _model.selecRolValueController ??=
+                      FormFieldController<String>(
+                    _model.selecRolValue ??= widget.editarUsuario?.rol,
+                  ),
+                  options: const ['Administrador', 'Cliente'],
+                  onChanged: (val) =>
+                      setState(() => _model.selecRolValue = val),
+                  width: 300.0,
+                  height: 56.0,
+                  textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Readex Pro',
+                        letterSpacing: 0.0,
+                      ),
+                  hintText: 'Selecionar el Rol..',
+                  icon: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 24.0,
+                  ),
+                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                  elevation: 2.0,
+                  borderColor: FlutterFlowTheme.of(context).alternate,
+                  borderWidth: 2.0,
+                  borderRadius: 8.0,
+                  margin: const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
+                  hidesUnderline: true,
+                  isOverButton: true,
+                  isSearchable: false,
+                  isMultiSelect: false,
+                ),
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        if (_model.formKey.currentState == null ||
-                            !_model.formKey.currentState!.validate()) {
-                          return;
-                        }
-                        if (_model.uploadedFileUrl.isEmpty) {
-                          return;
-                        }
-
-                        await currentUserReference!
+                        await widget.editarUsuario!.reference
                             .update(createUsersRecordData(
+                          email: _model.txtemailTextController.text,
                           displayName: _model.txtNombreTextController.text,
-                          photoUrl: _model.uploadedFileUrl,
+                          photoUrl: _model.uploadedFileUrl == ''
+                              ? widget.editarUsuario?.photoUrl
+                              : _model.uploadedFileUrl,
                           phoneNumber:
                               '+506${_model.txtTelefonoTextController.text}',
                           direccion: _model.txtDireccionTextController.text,
-                          primerInicio: false,
+                          rol: _model.selecRolValue,
                         ));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Perfil Actualizado',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: const Duration(milliseconds: 2000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
-
-                        context.pushNamed('ListaProducto');
+                        context.safePop();
                       },
-                      text: 'Guardar tu perfil',
+                      text: 'Guardar Cambios',
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.9,
                         height: MediaQuery.sizeOf(context).height * 0.08,

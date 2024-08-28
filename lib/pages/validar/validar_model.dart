@@ -11,7 +11,5 @@ class ValidarModel extends FlutterFlowModel<ValidarWidget> {
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    unfocusNode.dispose();
-  }
+  void dispose() {}
 }

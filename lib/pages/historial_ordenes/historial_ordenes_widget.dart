@@ -5,25 +5,25 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'ordenes_copy_model.dart';
-export 'ordenes_copy_model.dart';
+import 'historial_ordenes_model.dart';
+export 'historial_ordenes_model.dart';
 
-class OrdenesCopyWidget extends StatefulWidget {
-  const OrdenesCopyWidget({super.key});
+class HistorialOrdenesWidget extends StatefulWidget {
+  const HistorialOrdenesWidget({super.key});
 
   @override
-  State<OrdenesCopyWidget> createState() => _OrdenesCopyWidgetState();
+  State<HistorialOrdenesWidget> createState() => _HistorialOrdenesWidgetState();
 }
 
-class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
-  late OrdenesCopyModel _model;
+class _HistorialOrdenesWidgetState extends State<HistorialOrdenesWidget> {
+  late HistorialOrdenesModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => OrdenesCopyModel());
+    _model = createModel(context, () => HistorialOrdenesModel());
   }
 
   @override
@@ -46,7 +46,7 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
-            backgroundColor: const Color(0xFFF1F5F8),
+            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             body: Center(
               child: SizedBox(
                 width: 50.0,
@@ -60,26 +60,24 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
             ),
           );
         }
-        List<OrderRecord> ordenesCopyOrderRecordList = snapshot.data!;
+        List<OrderRecord> historialOrdenesOrderRecordList = snapshot.data!;
 
         return GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
-            backgroundColor: const Color(0xFFF1F5F8),
+            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).primary,
+              backgroundColor: const Color(0xFF4E866C),
               automaticallyImplyLeading: false,
               leading: FlutterFlowIconButton(
                 borderColor: Colors.transparent,
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_rounded,
-                  color: Colors.white,
+                  color: FlutterFlowTheme.of(context).info,
                   size: 30.0,
                 ),
                 onPressed: () async {
@@ -87,11 +85,11 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
                 },
               ),
               title: Text(
-                'Ordenes',
+                'Historial Ordenes',
                 style: FlutterFlowTheme.of(context).displaySmall.override(
                       fontFamily: 'Outfit',
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      fontSize: 32.0,
+                      color: FlutterFlowTheme.of(context).info,
+                      fontSize: 24.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w500,
                     ),
@@ -110,7 +108,12 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
                     child: Builder(
                       builder: (context) {
                         final listaOrdenUsuario =
-                            ordenesCopyOrderRecordList.toList();
+                            historialOrdenesOrderRecordList
+                                .sortedList(
+                                    keyOf: (e) =>
+                                        dateTimeFormat("d/M h:mm a", e.creada!),
+                                    desc: true)
+                                .toList();
 
                         return ListView.builder(
                           padding: EdgeInsets.zero,
@@ -177,12 +180,17 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
                                                     .fromSTEB(
                                                         0.0, 4.0, 8.0, 0.0),
                                                 child: AutoSizeText(
-                                                  listaOrdenUsuarioItem.monto
-                                                      .toString()
-                                                      .maybeHandleOverflow(
-                                                        maxChars: 70,
-                                                        replacement: '…',
-                                                      ),
+                                                  formatNumber(
+                                                    listaOrdenUsuarioItem.monto,
+                                                    formatType:
+                                                        FormatType.decimal,
+                                                    decimalType:
+                                                        DecimalType.automatic,
+                                                    currency: '₡',
+                                                  ).maybeHandleOverflow(
+                                                    maxChars: 70,
+                                                    replacement: '…',
+                                                  ),
                                                   textAlign: TextAlign.start,
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -203,38 +211,67 @@ class _OrdenesCopyWidgetState extends State<OrdenesCopyWidget> {
                                           ),
                                         ),
                                       ),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          const Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [],
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 12.0, 4.0, 8.0),
-                                            child: Text(
-                                              listaOrdenUsuarioItem.status,
-                                              textAlign: TextAlign.end,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily:
-                                                        'Plus Jakarta Sans',
-                                                    color: const Color(0xFF0F1113),
-                                                    fontSize: 14.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w500,
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 8.0, 0.0, 0.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 4.0, 0.0),
+                                                  child: Text(
+                                                    dateTimeFormat(
+                                                        "M/d h:mm a",
+                                                        listaOrdenUsuarioItem
+                                                            .creada!),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                   ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 12.0, 4.0, 8.0),
+                                              child: Text(
+                                                listaOrdenUsuarioItem.status,
+                                                textAlign: TextAlign.end,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          color:
+                                                              const Color(0xFF0F1113),
+                                                          fontSize: 14.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

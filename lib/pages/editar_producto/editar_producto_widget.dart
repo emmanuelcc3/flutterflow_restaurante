@@ -1,39 +1,61 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
-import 'completar_perfil_model.dart';
-export 'completar_perfil_model.dart';
+import 'editar_producto_model.dart';
+export 'editar_producto_model.dart';
 
-class CompletarPerfilWidget extends StatefulWidget {
-  const CompletarPerfilWidget({super.key});
+class EditarProductoWidget extends StatefulWidget {
+  const EditarProductoWidget({
+    super.key,
+    required this.item,
+  });
+
+  final ProductoRecord? item;
 
   @override
-  State<CompletarPerfilWidget> createState() => _CompletarPerfilWidgetState();
+  State<EditarProductoWidget> createState() => _EditarProductoWidgetState();
 }
 
-class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
-  late CompletarPerfilModel _model;
+class _EditarProductoWidgetState extends State<EditarProductoWidget> {
+  late EditarProductoModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CompletarPerfilModel());
+    _model = createModel(context, () => EditarProductoModel());
 
-    _model.txtNombreTextController ??= TextEditingController();
+    _model.txtNombreTextController ??=
+        TextEditingController(text: widget.item?.nombre);
     _model.txtNombreFocusNode ??= FocusNode();
 
-    _model.txtTelefonoTextController ??= TextEditingController();
-    _model.txtTelefonoFocusNode ??= FocusNode();
+    _model.txtPrecioTextController ??= TextEditingController(
+        text: formatNumber(
+      widget.item?.precio,
+      formatType: FormatType.decimal,
+      decimalType: DecimalType.automatic,
+      currency: '₡',
+    ));
+    _model.txtPrecioFocusNode ??= FocusNode();
 
-    _model.txtDireccionTextController ??= TextEditingController();
-    _model.txtDireccionFocusNode ??= FocusNode();
+    _model.txtDescuentoTextController ??= TextEditingController(
+        text: formatNumber(
+      widget.item?.descuento,
+      formatType: FormatType.decimal,
+      decimalType: DecimalType.automatic,
+      currency: '₡',
+    ));
+    _model.txtDescuentoFocusNode ??= FocusNode();
+
+    _model.txtDescriptionTextController ??=
+        TextEditingController(text: widget.item?.description);
+    _model.txtDescriptionFocusNode ??= FocusNode();
   }
 
   @override
@@ -53,8 +75,22 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
         appBar: AppBar(
           backgroundColor: const Color(0xFF4E866C),
           automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).info,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
           title: Text(
-            'Completar Perfil',
+            'Editar Producto',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
                   color: FlutterFlowTheme.of(context).info,
@@ -87,15 +123,14 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
                         ),
-                        child: Container(
-                          width: 120.0,
-                          height: 120.0,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            _model.uploadedFileUrl,
+                            _model.uploadedFileUrl == ''
+                                ? widget.item!.imagen
+                                : _model.uploadedFileUrl,
+                            width: 300.0,
+                            height: 200.0,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -112,7 +147,6 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         final selectedMedia =
                             await selectMediaWithSourceBottomSheet(
                           context: context,
-                          imageQuality: 80,
                           allowPhoto: true,
                         );
                         if (selectedMedia != null &&
@@ -191,7 +225,7 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: 'Tu Nombre',
+                      labelText: 'Nombre',
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
                                 fontFamily: 'Readex Pro',
@@ -231,7 +265,7 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       prefixIcon: const Icon(
-                        Icons.person,
+                        Icons.fastfood,
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -245,12 +279,12 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextFormField(
-                    controller: _model.txtTelefonoTextController,
-                    focusNode: _model.txtTelefonoFocusNode,
+                    controller: _model.txtPrecioTextController,
+                    focusNode: _model.txtPrecioFocusNode,
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: 'Telefono',
+                      labelText: 'Precio',
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
                                 fontFamily: 'Readex Pro',
@@ -290,26 +324,26 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       prefixIcon: const Icon(
-                        Icons.phone_iphone,
+                        Icons.monetization_on,
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Readex Pro',
                           letterSpacing: 0.0,
                         ),
-                    validator: _model.txtTelefonoTextControllerValidator
+                    validator: _model.txtPrecioTextControllerValidator
                         .asValidator(context),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextFormField(
-                    controller: _model.txtDireccionTextController,
-                    focusNode: _model.txtDireccionFocusNode,
+                    controller: _model.txtDescuentoTextController,
+                    focusNode: _model.txtDescuentoFocusNode,
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: 'Direccion ',
+                      labelText: 'Descuento',
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
                                 fontFamily: 'Readex Pro',
@@ -349,15 +383,152 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       prefixIcon: const Icon(
-                        Icons.fmd_good_sharp,
+                        Icons.money_off,
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Readex Pro',
                           letterSpacing: 0.0,
                         ),
-                    validator: _model.txtDireccionTextControllerValidator
+                    validator: _model.txtDescuentoTextControllerValidator
                         .asValidator(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TextFormField(
+                    controller: _model.txtDescriptionTextController,
+                    focusNode: _model.txtDescriptionFocusNode,
+                    autofocus: true,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      labelStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Readex Pro',
+                                letterSpacing: 0.0,
+                              ),
+                      hintStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Readex Pro',
+                                letterSpacing: 0.0,
+                              ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).alternate,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.description_rounded,
+                      ),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Readex Pro',
+                          letterSpacing: 0.0,
+                        ),
+                    validator: _model.txtDescriptionTextControllerValidator
+                        .asValidator(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'En venta',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 20.0,
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                      Theme(
+                        data: ThemeData(
+                          checkboxTheme: CheckboxThemeData(
+                            visualDensity: VisualDensity.compact,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                          ),
+                          unselectedWidgetColor:
+                              FlutterFlowTheme.of(context).secondaryText,
+                        ),
+                        child: Checkbox(
+                          value: _model.ventaValue ??= widget.item!.enVenta,
+                          onChanged: (newValue) async {
+                            setState(() => _model.ventaValue = newValue!);
+                          },
+                          side: BorderSide(
+                            width: 2,
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
+                          activeColor: FlutterFlowTheme.of(context).primary,
+                          checkColor: FlutterFlowTheme.of(context).info,
+                        ),
+                      ),
+                      Text(
+                        'Promoción',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 20.0,
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                      Theme(
+                        data: ThemeData(
+                          checkboxTheme: CheckboxThemeData(
+                            visualDensity: VisualDensity.compact,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                          ),
+                          unselectedWidgetColor:
+                              FlutterFlowTheme.of(context).secondaryText,
+                        ),
+                        child: Checkbox(
+                          value: _model.promocionValue ??=
+                              widget.item!.promocion,
+                          onChanged: (newValue) async {
+                            setState(() => _model.promocionValue = newValue!);
+                          },
+                          side: BorderSide(
+                            width: 2,
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
+                          activeColor: const Color(0xFFE4622D),
+                          checkColor: FlutterFlowTheme.of(context).info,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Flexible(
@@ -365,40 +536,24 @@ class _CompletarPerfilWidgetState extends State<CompletarPerfilWidget> {
                     padding: const EdgeInsets.all(10.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        if (_model.formKey.currentState == null ||
-                            !_model.formKey.currentState!.validate()) {
-                          return;
-                        }
-                        if (_model.uploadedFileUrl.isEmpty) {
-                          return;
-                        }
-
-                        await currentUserReference!
-                            .update(createUsersRecordData(
-                          displayName: _model.txtNombreTextController.text,
-                          photoUrl: _model.uploadedFileUrl,
-                          phoneNumber:
-                              '+506${_model.txtTelefonoTextController.text}',
-                          direccion: _model.txtDireccionTextController.text,
-                          primerInicio: false,
+                        await widget.item!.reference
+                            .update(createProductoRecordData(
+                          modificado: getCurrentTimestamp,
+                          nombre: _model.txtNombreTextController.text,
+                          precio: double.tryParse(
+                              _model.txtPrecioTextController.text),
+                          descuento: double.tryParse(
+                              _model.txtDescuentoTextController.text),
+                          description: _model.txtDescriptionTextController.text,
+                          enVenta: _model.ventaValue,
+                          imagen: _model.uploadedFileUrl == ''
+                              ? widget.item?.imagen
+                              : _model.uploadedFileUrl,
+                          promocion: _model.promocionValue,
                         ));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Perfil Actualizado',
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: const Duration(milliseconds: 2000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
-
-                        context.pushNamed('ListaProducto');
+                        context.safePop();
                       },
-                      text: 'Guardar tu perfil',
+                      text: 'Guardar Cambios',
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.9,
                         height: MediaQuery.sizeOf(context).height * 0.08,

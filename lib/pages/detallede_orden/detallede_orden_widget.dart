@@ -40,14 +40,12 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          backgroundColor: const Color(0xFF4E866C),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
@@ -56,7 +54,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: FlutterFlowTheme.of(context).primaryText,
+              color: FlutterFlowTheme.of(context).info,
               size: 30.0,
             ),
             onPressed: () async {
@@ -150,6 +148,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                         .headlineSmall
                                         .override(
                                           fontFamily: 'Outfit',
+                                          color: const Color(0xFF4E4E4E),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
@@ -159,8 +158,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                         .bodyMedium
                                         .override(
                                           fontFamily: 'Readex Pro',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                          color: const Color(0xFF4E4E4E),
                                           letterSpacing: 0.0,
                                         ),
                                   ),
@@ -176,9 +174,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Readex Pro',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                color: const Color(0xFF4E4E4E),
                                                 letterSpacing: 0.0,
                                               ),
                                         ),
@@ -188,51 +184,61 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 32.0,
-                              constraints: const BoxConstraints(
-                                maxHeight: 32.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).secondary,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 4.0,
-                                    color: Color(0x32171717),
-                                    offset: Offset(
-                                      0.0,
-                                      2.0,
-                                    ),
-                                  )
-                                ],
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    await launchURL(
-                                        'https://wa.me/506${containerUsersRecord.phoneNumber}');
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.whatsapp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        size: 24.0,
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                await launchURL(
+                                    containerUsersRecord.phoneNumber);
+                              },
+                              child: Container(
+                                height: 32.0,
+                                constraints: const BoxConstraints(
+                                  maxHeight: 32.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 4.0,
+                                      color: Color(0x32171717),
+                                      offset: Offset(
+                                        0.0,
+                                        2.0,
                                       ),
-                                    ],
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      await launchURL(
+                                          'https://wa.me/506${containerUsersRecord.phoneNumber}');
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.whatsapp,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          size: 24.0,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -298,6 +304,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                     .titleLarge
                                     .override(
                                       fontFamily: 'Outfit',
+                                      color: const Color(0xFF4E4E4E),
                                       fontSize: 15.0,
                                       letterSpacing: 0.0,
                                     ),
@@ -320,9 +327,9 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                     TextSpan(
                                       text: formatNumber(
                                         widget.orden!.monto,
-                                        formatType: FormatType.custom,
-                                        format: '\$.00',
-                                        locale: '',
+                                        formatType: FormatType.decimal,
+                                        decimalType: DecimalType.automatic,
+                                        currency: '₡',
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
@@ -338,6 +345,7 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                       .titleLarge
                                       .override(
                                         fontFamily: 'Outfit',
+                                        color: const Color(0xFF4E4E4E),
                                         fontSize: 15.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w500,
@@ -472,6 +480,8 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                                                   .override(
                                                                     fontFamily:
                                                                         'Outfit',
+                                                                    color: const Color(
+                                                                        0xFF4E4E4E),
                                                                     letterSpacing:
                                                                         0.0,
                                                                   ),
@@ -510,6 +520,8 @@ class _DetalledeOrdenWidgetState extends State<DetalledeOrdenWidget> {
                                                                       .override(
                                                                         fontFamily:
                                                                             'Readex Pro',
+                                                                        color: const Color(
+                                                                            0xFF4E4E4E),
                                                                         fontSize:
                                                                             14.0,
                                                                         letterSpacing:

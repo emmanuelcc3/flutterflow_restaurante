@@ -1,8 +1,9 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'editar_perfil_widget.dart' show EditarPerfilWidget;
+import '/flutter_flow/form_field_controller.dart';
+import 'editar_usuario_widget.dart' show EditarUsuarioWidget;
 import 'package:flutter/material.dart';
 
-class EditarPerfilModel extends FlutterFlowModel<EditarPerfilWidget> {
+class EditarUsuarioModel extends FlutterFlowModel<EditarUsuarioWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -37,6 +38,10 @@ class EditarPerfilModel extends FlutterFlowModel<EditarPerfilWidget> {
     return null;
   }
 
+  // State field(s) for txtemail widget.
+  FocusNode? txtemailFocusNode;
+  TextEditingController? txtemailTextController;
+  String? Function(BuildContext, String?)? txtemailTextControllerValidator;
   // State field(s) for txtDireccion widget.
   FocusNode? txtDireccionFocusNode;
   TextEditingController? txtDireccionTextController;
@@ -49,6 +54,10 @@ class EditarPerfilModel extends FlutterFlowModel<EditarPerfilWidget> {
 
     return null;
   }
+
+  // State field(s) for SelecRol widget.
+  String? selecRolValue;
+  FormFieldController<String>? selecRolValueController;
 
   @override
   void initState(BuildContext context) {
@@ -64,6 +73,9 @@ class EditarPerfilModel extends FlutterFlowModel<EditarPerfilWidget> {
 
     txtTelefonoFocusNode?.dispose();
     txtTelefonoTextController?.dispose();
+
+    txtemailFocusNode?.dispose();
+    txtemailTextController?.dispose();
 
     txtDireccionFocusNode?.dispose();
     txtDireccionTextController?.dispose();

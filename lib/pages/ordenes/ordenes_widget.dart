@@ -36,14 +36,12 @@ class _OrdenesWidgetState extends State<OrdenesWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: const Color(0xFFF1F5F8),
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primary,
+          backgroundColor: const Color(0xFF4E866C),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
@@ -77,6 +75,13 @@ class _OrdenesWidgetState extends State<OrdenesWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                 child: StreamBuilder<List<OrderRecord>>(
@@ -232,18 +237,20 @@ class _OrdenesWidgetState extends State<OrdenesWidget> {
                                                       .reference
                                                       .update(
                                                           createOrderRecordData(
-                                                    status: 'En camino',
+                                                    status: 'Preparando',
                                                   ));
                                                 } else {
                                                   if (listViewOrderRecord
                                                           .status ==
-                                                      'En camino') {
+                                                      'Preparando') {
                                                     await listViewOrderRecord
                                                         .reference
                                                         .update(
                                                             createOrderRecordData(
                                                       status: 'Entregado',
                                                     ));
+                                                    await launchURL(
+                                                        'https://api.whatsapp.com/send?phone=${listViewOrderRecord.phoneNumber}&text=Nos complace informarle que su pedido está listo para ser recogido.');
                                                   }
                                                 }
                                               },
@@ -276,9 +283,7 @@ class _OrdenesWidgetState extends State<OrdenesWidget> {
                                                               .of(context)
                                                           .success;
                                                     } else {
-                                                      return FlutterFlowTheme
-                                                              .of(context)
-                                                          .primary;
+                                                      return const Color(0xFFB02A2A);
                                                     }
                                                   }(),
                                                   FlutterFlowTheme.of(context)
@@ -309,7 +314,7 @@ class _OrdenesWidgetState extends State<OrdenesWidget> {
                                               const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 12.0, 4.0, 8.0),
                                           child: Text(
-                                            dateTimeFormat('d/M h:mm a',
+                                            dateTimeFormat("M/d h:mm a",
                                                 listViewOrderRecord.creada!),
                                             textAlign: TextAlign.end,
                                             style: FlutterFlowTheme.of(context)
